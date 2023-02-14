@@ -1,0 +1,42 @@
+@import url("https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-std.css");
+
+body {
+  margin: 0;
+  font-family: "Pretendard Std";
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+code {
+  font-family: "Pretendard Std";
+}
+
+#root {
+  min-height: 10vh;
+}
+
+html {
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+* {
+  box-sizing: none;
+}
+
+button {
+  font-family: "Pretendard Std";
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
