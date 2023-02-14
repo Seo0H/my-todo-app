@@ -11,6 +11,15 @@ export const AuthFormBlock = styled.div`
     font-weight: 900;
     font-size: 28px;
   }
+
+  div {
+    margin-top: .7rem;
+  }
+  p {
+    font-size: 0.85rem;
+    line-height: 1.1rem;
+    font-weight: 500;
+  }
 `;
 
 export const StyledInput = styled.input`
@@ -43,6 +52,7 @@ export const Footer = styled.div`
 
 export const StyledButton = styled(Button)`
   margin-top: 1rem;
+  margin-bottom: 2rem;
   :disabled {
     background: #ccc;
   }
@@ -54,4 +64,3 @@ export const WarnMessage = styled.span`
   font-size: 0.8rem;
   color: red;
 `;
-
