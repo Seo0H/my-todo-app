@@ -31,27 +31,13 @@ src
 
 ## **2. 기능 / 시연**
 
-**`/signup`**
-#### 회원가입
-<img src="https://user-images.githubusercontent.com/108770949/218331343-d32f9f84-a165-4ff5-99aa-77593ca36ae7.gif" width="800">
+- **`/signup`**
+  - 회원가입 / 로그인 기능을 구현하였습니다.
+  - 추가적으로 회원가입 시 '로그인 확인' 기능을 넣어 구현하였습니다. 
 
-#### 로그인
-<img src="https://user-images.githubusercontent.com/108770949/218331347-2d4c57b1-37b3-41c9-875f-25dcedc94526.gif" width="800">
-
-<hr/>
-
-**`/todo`**
-#### todo 추가
-<img src="https://user-images.githubusercontent.com/108770949/218331348-67771448-1956-47ac-94f4-f3e830e2c08e.gif" width="800">
-
-#### todo 삭제
-<img src="https://user-images.githubusercontent.com/108770949/218331349-58f39a3d-16d6-4193-bbb2-3ba0bd751572.gif" width="800">
-
-#### todo 수정
-<img src="https://user-images.githubusercontent.com/108770949/218331350-d55edfa4-c9b5-4cb9-b014-496674037bfb.gif" width="800">
-
-#### 로그아웃
-<img src="https://user-images.githubusercontent.com/108770949/218331351-e1008275-7645-4e91-9016-f7c89caf29d1.gif" width="800">
+- **`/todo`**
+  - todo 추가, 삭제, 수정 기능을 구현하였습니다.
+  - 추가적으로 로그아웃 버튼을 구현하였습니다.
 
 ## **4. 설치 및 실행**
 
@@ -64,3 +50,6 @@ REACT_APP_API_URL=https://pre-onboarding-selection-task.shop
 npm install // install node_modules
 yarn run
 ```
+
+p.s. 시작을 redux로 작업해서, commit history는 <a href="https://github.com/Seo0H/wanted-pre-onboarding-frontend-redux-ver" target="_blank"> 
+wanted-pre-onboarding-frontend-redux-ver </a> 에서 확인 가능합니다.
