@@ -1,19 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import palette from "../../lib/styles/palette";
 import styled from "styled-components";
 import TodoCreateBox from "../../components/todo/TodoCreateBox";
 import TodoListBox from "../../components/todo/TodoListBox";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import {
-  getTodos,
-  todoCreate,
-  todoRemove,
-  todoUpdate,
-} from "../../modules/todo";
 import { useCallback, useEffect } from "react";
 import TodoHeader from "../../components/todo/TodoHeader";
 import { useNavigate } from "react-router-dom";
-import { changeSignInStatus } from "../../modules/auth";
+import { useState } from "react";
+import {
+  createTodoApi,
+  deleteTodoApi,
+  getTodosApi,
+  updateTodoApi,
+} from "../../lib/api/todo";
 
 const TodoListBlock = styled.div`
   h3 {
@@ -27,28 +26,36 @@ const TodoListBlock = styled.div`
 `;
 
 /**
- * @components `TodolistForm` : `todoReducer` 리덕스를 통해 정보를 받아오는 공간입니다.
- * `TodoForm`에서 필요한 정보를 disptch로 받아와 해당 컴포넌트에 props로 전달합니다.
+ * @components `TodolistForm` : `TodoForm`에서 필요한 정보를 받아와 해당 컴포넌트에 props로 전달합니다.
  */
 function TodoListForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [todos, setTodos] = useState([]);
 
-  const { todos } = useSelector(({ todo }) => ({
-    todos: todo.todos,
-  }));
+  async function getTodo() {
+    try {
+      const { data: todos } = await getTodosApi();
+      setTodos([...todos]);
+    } catch ({ response: { data } }) {
+      alert(data.message);
+    }
+  }
 
   /* first render */
   useEffect(() => {
-    dispatch(getTodos());
+    getTodo();
   }, []);
 
   /* todo create handler */
   const onCreate = useCallback(
     async (todo) => {
       if (!todo) return;
-      await dispatch(todoCreate(todo));
-      await dispatch(getTodos());
+      try {
+        await createTodoApi(todo);
+        await getTodo();
+      } catch ({ response: { data } }) {
+        alert(data.message);
+      }
     },
     [todos]
   );
@@ -56,8 +63,8 @@ function TodoListForm() {
   /* todo remove handler */
   const onRemove = useCallback(
     async (id, e) => {
-      await dispatch(todoRemove(id));
-      await dispatch(getTodos());
+      await deleteTodoApi(id);
+      await getTodo();
     },
     [todos]
   );
@@ -65,18 +72,16 @@ function TodoListForm() {
   /* todo update( checkbox, modify ) handler */
   const onUpdate = useCallback(
     async ({ id, todo, isCompleted }) => {
-      await dispatch(todoUpdate({ id, todo, isCompleted }));
-      await dispatch(getTodos());
+      await updateTodoApi(id, todo, isCompleted);
+      await getTodo();
     },
     [todos]
   );
 
   const onLogount = (e) => {
     localStorage.clear();
-    dispatch(changeSignInStatus());
     alert("로그아웃되엇슴다");
     navigate("/signin");
-    e.preventDefault();
   };
 
   return (

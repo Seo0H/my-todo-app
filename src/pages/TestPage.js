@@ -1,20 +1,24 @@
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getTodos } from "./../modules/todo";
-import TodoListBox from "./../components/todo/TodoListBox";
+import { useState } from "react";
+import { getTodosApi } from "../lib/api/todo";
 
 const TestPage = () => {
-  const dispatch = useDispatch();
 
-  const { todos } = useSelector(({ todo }) => ({
-    todos: todo.todos,
-  }));
+  const [todos, setTodos] = useState([]);
 
+  async function getTodo() {
+    try {
+      const { data: todos } = await getTodosApi();
+      setTodos([...todos]);
+    } catch ({ response: { data } }) {
+      alert(data.message);
+    }
+  }
+
+  /* first render */
   useEffect(() => {
-    dispatch(getTodos());
+    getTodo();
   }, []);
-
   useEffect(() => {
     if (todos.length > 0) {
       todos.sort((a, b) => {

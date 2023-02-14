@@ -1,6 +1,5 @@
 import AuthForm from "../../components/auth/AuthForm";
 import { useEffect, useState } from "react";
-import { changeSignInStatus } from "../../modules/auth";
 import { useNavigate } from "react-router-dom";
 import useAuthVaild from "./../../lib/hooks/useAuthVaild";
 import { signInApi } from "./../../lib/api/auth";
@@ -69,7 +68,7 @@ const SigninForm = () => {
   const onClick = async (e) => {
     e.preventDefault();
     try {
-      const { access_token } = await signInApi({ email, password });
+      const { data: { access_token }  } = await signInApi({ email, password });
       localStorage.setItem("access_token", access_token);
       alert("로그인 성공");
       navigate("/todo");
