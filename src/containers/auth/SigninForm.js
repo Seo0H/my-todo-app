@@ -1,31 +1,15 @@
 import AuthForm from "../../components/auth/AuthForm";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  changeField,
-  changeSignInStatus,
-  postSignIn,
-} from "../../modules/auth";
+import { useEffect, useState } from "react";
+import { changeSignInStatus } from "../../modules/auth";
 import { useNavigate } from "react-router-dom";
 import useAuthVaild from "./../../lib/hooks/useAuthVaild";
-import { signUpApi } from "../../lib/api/auth";
+import { signInApi } from "./../../lib/api/auth";
 
 /**
- * @components `SigninForm` : `authReducer` 리덕스를 통해 정보를 받아오는 공간입니다.
- * `로그인`에 필요한 정보를 disptch로 받아와 `AuthForm`에 props로 전달합니다.
+ * @components `SigninForm` : `로그인`에 필요한 정보를 disptch로 받아와 `AuthForm`에 props로 전달합니다.
  */
 const SigninForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const { form, status } = useSelector(({ auth }) => ({
-  //   form: auth.singIn,
-  //   status: auth.status,
-  // }));
-
-  useEffect(() => {
-    dispatch(changeSignInStatus());
-  }, []);
 
   //유효성 검사 관련 handler
   const [emailIsValid, setEmailIsValid] = useState(false);
@@ -39,10 +23,11 @@ const SigninForm = () => {
   //user email, password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let form ={}
-  useEffect(()=> {
-    form = {email, password};
-  }, [email, password] )
+  let form = {};
+
+  useEffect(() => {
+    form = { email, password };
+  }, [email, password]);
 
   useEffect(() => {
     if (emailIsValid && pwisValid) setIsValid(true);
@@ -78,43 +63,20 @@ const SigninForm = () => {
         setPwMessage(message);
       }
     }
-
-    // // 입력 변화 감지 dispatch
-    // dispatch(
-    //   changeField({
-    //     form: "singIn",
-    //     key: name,
-    //     value,
-    //   })
-    // );
   };
 
   // FORM Submit handler
-  // Thunk 로 분리 예정
   const onClick = async (e) => {
     e.preventDefault();
-    // const { email, password } = form;
-    // dispatch(postSignIn({ email, password }));
     try {
-      await signUpApi(email, password);
+      const { access_token } = await signInApi({ email, password });
+      localStorage.setItem("access_token", access_token);
       alert("로그인 성공");
       navigate("/todo");
-    } catch ({ response }) {
-      alert(response.data);
+    } catch ({ response: { data } }) {
+      alert(data.message);
     }
   };
-
-  // useEffect(() => {
-  //   if (status === "postSignIn/COMPLETE") {
-  //     alert("로그인 성공");
-  //     navigate("/todo");
-  //   }
-
-  //   if (status === "postSignIn/FAIL") {
-  //     alert("해당 유저가 존재하지 않습니다.");
-  //   }
-
-  // }, [status]);
 
   return (
     <>
