@@ -1,6 +1,5 @@
 import AuthForm from "../../components/auth/AuthForm";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { changeField } from "./../../modules/auth";
 import { signUpApi } from "../../lib/api/auth";
 import { useNavigate } from "react-router-dom";
@@ -8,23 +7,27 @@ import { postSignUp } from "./../../modules/auth";
 import useAuthVaild from "../../lib/hooks/useAuthVaild";
 
 /**
- * @components `SignupForm` : `authReducer` 리덕스를 통해 정보를 받아오는 공간입니다.
- * `회원가입`에 필요한 정보를 disptch로 받아와 `AuthForm`에 props로 전달합니다.
+ * @components `SignupForm` : `회원가입`에 필요한 정보를 받아와 `AuthForm`에 props로 전달합니다.
  */
 const SignupForm = () => {
-  const dispatch = useDispatch();
 
-  const { form, status } = useSelector(({ auth }) => ({
-    form: auth.signUp,
-    status: auth.status,
-  }));
+  //user input email, password
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  let form = {};
+
+  useEffect(() => {
+    form = { ...form, email, password, passwordConfirm };
+  }, [email, password, passwordConfirm]);
 
   //유효성 검사 관련 handler
+  const emailExp = new RegExp("@");
+  const passwordExp = new RegExp("(?=.{8,})");
+
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [pwisValid, setPwIsValid] = useState(false);
   const [pwisConfirmValid, setPwConfirmIsValid] = useState(false);
-
-  const [pwCheckTmp, setPwCheckTmp] = useState();
 
   const [emailMessage, setEmailMessage] = useState("");
   const [pwMessage, setPwMessage] = useState("");
@@ -38,8 +41,6 @@ const SignupForm = () => {
     if (emailIsValid && pwisValid && pwisConfirmValid) setIsValid(true);
   }, [emailIsValid, pwisValid, pwisConfirmValid]);
 
-  const emailExp = new RegExp("@");
-  const passwordExp = new RegExp("(?=.{8,})");
 
   // input 변화 감지 handler
   const OnChange = (e) => {
@@ -49,9 +50,8 @@ const SignupForm = () => {
      */
     const { name, value } = e.target;
 
-    // const message = useAuthVaild(name, value);
-
     if (name === "email") {
+      setEmail(value);
       if (emailExp.test(value)) {
         setEmailIsValid(true);
         setEmailMessage("");
@@ -61,11 +61,8 @@ const SignupForm = () => {
       }
     }
 
-    //1. 유효성 검사 통과
-    //2. pwCheck 를 먼저 작성 후 pw 작성하는 경우
-    //   -> pwcheck 경고창 사라지게
-    //3. 다 유효성 통과한 이후 pw 수정해서 pwcheck와 맞지 않는 경우
     if (name === "password") {
+      setPassword(value);
       if (passwordExp.test(value)) {
         setPwMessage("");
         setPwIsValid(true);
@@ -86,6 +83,7 @@ const SignupForm = () => {
     }
 
     if (name === "passwordConfirm") {
+      setPasswordConfirm(value);
       if (form.password === value) {
         setPwConfirmIsValid(true);
         setpwConfirmMessage("");
@@ -94,32 +92,21 @@ const SignupForm = () => {
         setpwConfirmMessage("입력하신 비밀번호와 같게 입력해주세요.");
       }
     }
-
-    // 입력 변화 감지 dispatch
-    dispatch(
-      changeField({
-        form: "signUp",
-        key: name,
-        value,
-      })
-    );
   };
 
   // FORM Submit handler
   const navigate = useNavigate();
 
   const onClick = async (e) => {
-    const { email, password } = form;
-    await e.preventDefault();
-    dispatch(postSignUp({ email, password }));
-  };
-
-  useEffect(() => {
-    if (status === "postSignUp/COMPLETE") {
+    e.preventDefault();
+    try {
+      await signUpApi({ email, password });
       alert("회원가입 성공");
       navigate("/signin");
+    } catch ({ response: { data } }) {
+      alert(data.message);
     }
-  }, [status]);
+  };
 
   return (
     <AuthForm

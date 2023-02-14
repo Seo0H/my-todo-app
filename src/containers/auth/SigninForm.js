@@ -26,7 +26,7 @@ const SigninForm = () => {
   let form = {};
 
   useEffect(() => {
-    form = { email, password };
+    form = { ...form, email, password };
   }, [email, password]);
 
   useEffect(() => {
