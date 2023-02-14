@@ -39,9 +39,9 @@ const SigninForm = () => {
   //user email, password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  let form ={}
   useEffect(()=> {
-    let form = {email, password};
+    form = {email, password};
   }, [email, password] )
 
   useEffect(() => {
