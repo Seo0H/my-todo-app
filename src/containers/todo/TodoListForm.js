@@ -80,7 +80,7 @@ function TodoListForm() {
 
   const onLogount = (e) => {
     localStorage.clear();
-    alert("로그아웃되엇슴다");
+    alert("로그아웃 되었습니다");
     navigate("/signin");
   };
 

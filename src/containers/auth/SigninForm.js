@@ -5,7 +5,7 @@ import useAuthVaild from "./../../lib/hooks/useAuthVaild";
 import { signInApi } from "./../../lib/api/auth";
 
 /**
- * @components `SigninForm` : `로그인`에 필요한 정보를 disptch로 받아와 `AuthForm`에 props로 전달합니다.
+ * @components `SigninForm` : `로그인`에 필요한 정보를 받아와 `AuthForm`에 props로 전달합니다.
  */
 const SigninForm = () => {
   const navigate = useNavigate();

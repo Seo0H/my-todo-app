@@ -4,6 +4,7 @@ import {
   Footer,
   StyledButton,
   StyledInput,
+  StyledP,
   WarnMessage,
 } from "./style";
 
@@ -32,7 +33,15 @@ const AuthForm = ({
 
   return (
     <AuthFormBlock>
-      <h3>{text}</h3>
+      <h3>
+        {text}
+        {type === "signup" && (
+          <div>
+            <p> 사용하시는 이메일이 아닌 </p>
+            <p>테스트 이메일로 가입 해주세요.</p>
+          </div>
+        )}{" "}
+      </h3>
       <form method="post">
         <StyledInput
           data-testid="email-input"
@@ -67,8 +76,6 @@ const AuthForm = ({
           </>
         )}
 
-        {/* 나중에 이부분 js로 수정해도 될듯... */}
-
         {type === "signup" ? (
           <StyledButton
             onClick={onClick}
@@ -91,11 +98,13 @@ const AuthForm = ({
       </form>
 
       <Footer>
-        {type === "signup" ? (
-          <Link to="/signin">로그인</Link>
-        ) : (
-          <Link to="/signup">회원가입</Link>
-        )}
+        <div>
+          {type === "signup" ? (
+            <Link to="/signin">로그인</Link>
+          ) : (
+            <Link to="/signup">회원가입</Link>
+          )}
+        </div>
       </Footer>
     </AuthFormBlock>
   );
