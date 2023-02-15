@@ -33,7 +33,7 @@ src
 
 - **`/signup`**
   - 회원가입 / 로그인 기능을 구현하였습니다.
-  - 추가적으로 회원가입 시 '로그인 확인' 기능을 넣어 구현하였습니다. 
+  - 추가적으로 회원가입 시 '로그인 확인' 기능을 넣어 구현하였습니다.
 
 - **`/todo`**
   - todo 추가, 삭제, 수정 기능을 구현하였습니다.
@@ -48,8 +48,8 @@ REACT_APP_API_URL=https://pre-onboarding-selection-task.shop
 2. 실행
 ```
 npm install // install node_modules
-yarn run
+npm start
 ```
 
-p.s. 시작을 redux로 작업해서, commit history는 <a href="https://github.com/Seo0H/wanted-pre-onboarding-frontend-redux-ver" target="_blank"> 
+p.s. 시작을 redux로 작업해서, commit history는 <a href="https://github.com/Seo0H/wanted-pre-onboarding-frontend-redux-ver" target="_blank">
 wanted-pre-onboarding-frontend-redux-ver </a> 에서 확인 가능합니다.
