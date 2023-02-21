@@ -8,17 +8,21 @@ import { useNavigate } from "react-router-dom";
  */
 const SignupForm = () => {
 
-  //user input email, password
+  //user input email, password, setPasswordConfirm
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  let form = {};
+
+  // 각 변수를 보내는 것과, 객체로 묶어 보내는 것 중
+  // 어떤게 나을지 잘 모르겠어서 일단 form 객체로 묶어서 보냈다.
+  const [form, setForm] = useState({ email, password, passwordConfirm });
 
   useEffect(() => {
-    form = { ...form, email, password, passwordConfirm };
+    setForm({ ...form, email, password, passwordConfirm });
   }, [email, password, passwordConfirm]);
 
   //유효성 검사 관련 handler
+  //SigninForm 과 겹치는 부분이라 hook으로 분리를 하고자 했지만 아직 구현하지 못했다.
   const emailExp = new RegExp("@");
   const passwordExp = new RegExp("(?=.{8,})");
 
@@ -32,12 +36,9 @@ const SignupForm = () => {
 
   // 회원가입 버튼 활성화 handler
   const [isValid, setIsValid] = useState(false);
-
-  // 회원가입 버튼 활성화 handler
   useEffect(() => {
     if (emailIsValid && pwisValid && pwisConfirmValid) setIsValid(true);
   }, [emailIsValid, pwisValid, pwisConfirmValid]);
-
 
   // input 변화 감지 handler
   const OnChange = (e) => {
@@ -68,6 +69,7 @@ const SignupForm = () => {
         setPwMessage("비밀번호는 8자 이상으로 작성해주세요.");
       }
 
+      //예외: 비밀번호 확인이 비밀번호와 맞는 상황, 경고 메시지 안보이게 처리하는 부분
       if (form.passwordConfirm === value) {
         setPwIsValid(true);
         setpwConfirmMessage("");

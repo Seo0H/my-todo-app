@@ -10,6 +10,15 @@ import { signInApi } from "./../../lib/api/auth";
 const SigninForm = () => {
   const navigate = useNavigate();
 
+  //user input email, password
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email, password });
+
+  useEffect(() => {
+    setForm({ ...form, email, password });
+  }, [email, password]);
+
   //유효성 검사 관련 handler
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [pwisValid, setPwIsValid] = useState(false);
@@ -18,15 +27,6 @@ const SigninForm = () => {
 
   // 로그인 버튼 활성화 handler
   const [isValid, setIsValid] = useState(false);
-
-  //user email, password
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  let form = {};
-
-  useEffect(() => {
-    form = { ...form, email, password };
-  }, [email, password]);
 
   useEffect(() => {
     if (emailIsValid && pwisValid) setIsValid(true);
@@ -68,7 +68,9 @@ const SigninForm = () => {
   const onClick = async (e) => {
     e.preventDefault();
     try {
-      const { data: { access_token }  } = await signInApi({ email, password });
+      const {
+        data: { access_token },
+      } = await signInApi({ email, password });
       localStorage.setItem("access_token", access_token);
       alert("로그인 성공");
       navigate("/todo");

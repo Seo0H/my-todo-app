@@ -35,13 +35,16 @@ const AuthForm = ({
     <AuthFormBlock>
       <h3>
         {text}
+
         {type === "signup" && (
           <div>
             <p> 사용하시는 이메일이 아닌 </p>
             <p>테스트 이메일로 가입 해주세요.</p>
           </div>
-        )}{" "}
+        )}
       </h3>
+
+      {/* input form 부분 */}
       <form method="post">
         <StyledInput
           data-testid="email-input"
@@ -62,6 +65,7 @@ const AuthForm = ({
           onChange={onChange}
         />
         <WarnMessage> {pwMessage} </WarnMessage>
+
         {type === "signup" && (
           <>
             <StyledInput
@@ -76,6 +80,7 @@ const AuthForm = ({
           </>
         )}
 
+        {/* form button 부분 */}
         {type === "signup" ? (
           <StyledButton
             onClick={onClick}
