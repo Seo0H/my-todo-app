@@ -4,9 +4,6 @@ export const GlobalStyle = createGlobalStyle`
 body, * {
 	font-family: 'Pretendard';
   margin: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
 }
 
 #root {
